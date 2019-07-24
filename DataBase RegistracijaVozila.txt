@@ -1,0 +1,119 @@
+CREATE DATABASE RegistracijaVozila
+GO
+USE RegistracijaVozila
+GO
+CREATE TABLE tblPutnickaV
+(
+idPutnickaV int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+pRegistracijaVozila NVARCHAR(10) NOT NULL,
+vrstaVozila NVARCHAR(30) NOT NULL,
+opstinaP NVARCHAR(50) NOT NULL,
+godisteP NVARCHAR(4) NOT NULL,
+snagaMotoraKWP NVARCHAR(10) NOT NULL,
+zapreminaMotora NVARCHAR(10) NOT NULL,
+)
+CREATE TABLE tblTeretnaV
+(
+idTeretnaV int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+tRegistracijaVozila NVARCHAR(10) NOT NULL,
+vrstaVozilaT NVARCHAR(30) NOT NULL,
+opstinaT NVARCHAR(50) NOT NULL,
+godisteT NVARCHAR(4) NOT NULL,
+snagaMotoraKWT NVARCHAR(10) NOT NULL,
+zapreminaMotoraT NVARCHAR(10) NOT NULL,
+nosivostT NVARCHAR(2) NOT NULL,
+)
+CREATE TABLE tblVucnaV
+(
+idVucnaV int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+vRegistracijaVozila NVARCHAR(10) NOT NULL,
+vrstaVozilaV NVARCHAR(30) NOT NULL,
+opstinaV NVARCHAR(50) NOT NULL,
+godisteV NVARCHAR(4) NOT NULL,
+snagaMotoraKWV NVARCHAR(10) NOT NULL,
+)
+CREATE TABLE tblPrikljucnaV
+(
+idPrikljucnaV int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+pRegistracijaVozila NVARCHAR(10) NOT NULL,
+vrstaVozilaP NVARCHAR(30) NOT NULL,
+opstinaP NVARCHAR(50) NOT NULL,
+godisteP NVARCHAR(4) NOT NULL,
+nosivostP NVARCHAR(10) NOT NULL,
+namenaP NVARCHAR(100)NOT NULL,
+)
+CREATE TABLE tblGradskiA
+(
+idGradskiA int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+gARegistracijaVozila NVARCHAR(10) NOT NULL,
+vrstaVozilaGA NVARCHAR(30) NOT NULL,
+opstinaGA NVARCHAR(50) NOT NULL,
+godisteGA NVARCHAR(4) NOT NULL,
+brojMestaGA NVARCHAR(3) NOT NULL,
+namenaP NVARCHAR(50) NOT NULL,
+saobraæajnaITablice NVARCHAR(50) NOT NULL,
+)
+CREATE TABLE tblMedjugradskiA
+(
+idMedjugradskiA int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+mARegistracijaVozila NVARCHAR(10) NOT NULL,
+vrstaVozilaMA NVARCHAR(30) NOT NULL,
+opstinaMA NVARCHAR(50) NOT NULL,
+godisteMA NVARCHAR(4) NOT NULL,
+brojMestaMA NVARCHAR(3) NOT NULL,
+namenaP NVARCHAR(50) NOT NULL,
+saobracajnaITablice NVARCHAR(100) NOT NULL,
+)
+CREATE TABLE tblTehnickiPregled
+(
+idTehnickiPregled int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+idPutnickaV INT NOT NULL FOREIGN KEY REFERENCES tblPutnickaV(idPutnickaV),
+idTeretnaV INT NOT NULL FOREIGN KEY REFERENCES tblTeretnaV(idTeretnaV),
+idVucnaV INT NOT NULL FOREIGN KEY REFERENCES tblVucnaV(idVucnaV),
+idPrikljucnaV INT NOT NULL FOREIGN KEY REFERENCES tblPrikljucnaV(idPrikljucnaV),
+idGradskiA INT NOT NULL FOREIGN KEY REFERENCES tblGradskiA(idGradskiA),
+idMedjugradskiA INT NOT NULL FOREIGN KEY REFERENCES tblMedjugradskiA(idMedjugradskiA),
+status NVARCHAR(10) NOT NULL,
+Datum DATETIME NOT NULL,
+opstinaP NVARCHAR(50) NOT NULL,
+OPIS NVARCHAR(1000) NOT NULL,
+)
+
+CREATE TABLE tblFirma
+(
+idFirma int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+nazivFirme NVARCHAR(100) NOT NULL,
+adresaFirme NVARCHAR(100) NOT NULL,
+brojTelefona NVARCHAR(25) NOT NULL,
+odgovornoLice NVARCHAR(50) NOT NULL,
+)
+CREATE TABLE tblOsiguranje
+(
+idOsiguranje int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+idPutnickaV INT NOT NULL FOREIGN KEY REFERENCES tblPutnickaV(idPutnickaV),
+idTeretnaV INT NOT NULL FOREIGN KEY REFERENCES tblTeretnaV(idTeretnaV),
+idVucnaV INT NOT NULL FOREIGN KEY REFERENCES tblVucnaV(idVucnaV),
+idPrikljucnaV INT NOT NULL FOREIGN KEY REFERENCES tblPrikljucnaV(idPrikljucnaV),
+idGradskiA INT NOT NULL FOREIGN KEY REFERENCES tblGradskiA(idGradskiA),
+idMedjugradskiA INT NOT NULL FOREIGN KEY REFERENCES tblMedjugradskiA(idMedjugradskiA),
+status NVARCHAR(10) NOT NULL,
+datumOsiguranja DATETIME NOT NULL,
+datumIstekaOsiguranja DATETIME NOT NULL,
+firmaOsigurala NVARCHAR(50) NOT NULL,
+)
+
+CREATE TABLE tblHome
+(
+idHome int IDENTITY(1,1) NOT NULL PRIMARY KEY,
+idPutnickaV INT NOT NULL FOREIGN KEY REFERENCES tblPutnickaV(idPutnickaV),
+idTeretnaV INT NOT NULL FOREIGN KEY REFERENCES tblTeretnaV(idTeretnaV),
+idVucnaV INT NOT NULL FOREIGN KEY REFERENCES tblVucnaV(idVucnaV),
+idPrikljucnaV INT NOT NULL FOREIGN KEY REFERENCES tblPrikljucnaV(idPrikljucnaV),
+idGradskiA INT NOT NULL FOREIGN KEY REFERENCES tblGradskiA(idGradskiA),
+idMedjugradskiA INT NOT NULL FOREIGN KEY REFERENCES tblMedjugradskiA(idMedjugradskiA),
+registrovanDatum DATETIME NOT NULL,
+isticeDatum DATETIME NOT NULL,
+idFirma INT NOT NULL FOREIGN KEY REFERENCES tblFirma(idFirma),
+idTehnickiPregled INT NOT NULL FOREIGN KEY REFERENCES tblTehnickiPregled(idTehnickiPregled),
+idOsiguranje INT NOT NULL FOREIGN KEY REFERENCES tblOsiguranje(idOsiguranje),
+)
